@@ -79,8 +79,8 @@ export default function Home() {
                 </div>
                 <p className="text-gray-600 mb-6 h-12">{template.description}</p>
                 <div className="border-2 border-gray-100 rounded-lg overflow-hidden 
-                  transform scale-[0.6] origin-top 
-                  group-hover:scale-[0.65] transition-transform duration-300 w-full h-[400px]">
+                  transform scale-[0.9] origin-top 
+                  group-hover:scale-[0.95] transition-transform duration-300 w-full h-[400px]">
                   <template.component data={resumeData} />
                 </div>
               </div>
