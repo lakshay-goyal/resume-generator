@@ -2,13 +2,8 @@
 const nextConfig = {
   output: 'standalone',
   experimental: {
-    serverComponentsExternalPackages: ['html2pdf.js']
-  },
-  pages: {
-    '/preview': {
-      ssr: false
-    }
+    serverExternalPackages: ['html2pdf.js']
   }
 };
 
-module.exports = nextConfig;
+export default nextConfig;

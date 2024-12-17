@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { useAtom } from 'jotai';
 import { resumeDataAtom, selectedTemplateAtom } from '../store/resumeStore';
 import { useRouter } from 'next/navigation';
@@ -11,8 +12,8 @@ import Template1 from '../templates/Template1';
 import Template2 from '../templates/Template2';
 import Template3 from '../templates/Template3';
 
-// Conditional import to avoid SSR issues
-const html2pdf = typeof window !== 'undefined' ? require('html2pdf.js') : null;
+// Dynamically import html2pdf
+const Html2Pdf = dynamic(() => import('html2pdf.js'), { ssr: false });
 
 const templates = {
   template1: Template1,
@@ -44,7 +45,7 @@ export default function ResumePreviewer() {
 
   const handleDownloadPDF = async () => {
     // Check for client-side environment and html2pdf availability
-    if (!isClient || typeof window === 'undefined' || !resumeRef.current || !html2pdf) return;
+    if (!isClient || typeof window === 'undefined' || !resumeRef.current) return;
     
     setIsGenerating(true);
     const element = resumeRef.current;
@@ -66,6 +67,7 @@ export default function ResumePreviewer() {
     };
 
     try {
+      const html2pdf = await Html2Pdf;
       await html2pdf(element, opt).save();
     } catch (error) {
       console.error('PDF generation error:', error);
