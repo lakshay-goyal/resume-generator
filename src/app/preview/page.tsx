@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import dynamic from 'next/dynamic';
+// Remove the dynamic import line
 import { useAtom } from 'jotai';
 import { resumeDataAtom, selectedTemplateAtom } from '../store/resumeStore';
 import { useRouter } from 'next/navigation';
@@ -11,9 +11,7 @@ import { Download, ArrowLeft, Printer } from 'lucide-react';
 import Template1 from '../templates/Template1';
 import Template2 from '../templates/Template2';
 import Template3 from '../templates/Template3';
-
-// Import html2pdf with a type assertion
-import * as html2pdfModule from 'html2pdf.js';
+import html2pdf from 'html2pdf.js';
 
 const templates = {
   template1: Template1,
@@ -60,8 +58,7 @@ export default function ResumePreviewer() {
     };
 
     try {
-      // Use the imported module directly
-      await html2pdfModule.default(element, opt).save();
+      await html2pdf(element, opt).save();
     } catch (error) {
       console.error('PDF generation error:', error);
       alert('Failed to generate PDF');
