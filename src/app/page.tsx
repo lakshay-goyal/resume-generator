@@ -39,7 +39,7 @@ export default function Home() {
     if (!selectedTemplate) {
       setSelectedTemplate('template1');
     }
-  }, []);
+  }, [selectedTemplate, setSelectedTemplate]);
 
   const handleTemplateSelect = (templateId: string) => {
     setSelectedTemplate(templateId);
