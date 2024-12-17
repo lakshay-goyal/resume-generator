@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
-// Remove the dynamic import line
+import { useState, useEffect, useRef } from 'react';
 import { useAtom } from 'jotai';
 import { resumeDataAtom, selectedTemplateAtom } from '../store/resumeStore';
 import { useRouter } from 'next/navigation';
@@ -11,7 +10,9 @@ import { Download, ArrowLeft, Printer } from 'lucide-react';
 import Template1 from '../templates/Template1';
 import Template2 from '../templates/Template2';
 import Template3 from '../templates/Template3';
-import html2pdf from 'html2pdf.js';
+
+// Conditional import to avoid SSR issues
+const html2pdf = typeof window !== 'undefined' ? require('html2pdf.js') : null;
 
 const templates = {
   template1: Template1,
@@ -20,11 +21,17 @@ const templates = {
 };
 
 export default function ResumePreviewer() {
+  const [isClient, setIsClient] = useState(false);
   const [resumeData] = useAtom(resumeDataAtom);
   const [selectedTemplate] = useAtom(selectedTemplateAtom);
   const router = useRouter();
   const [isGenerating, setIsGenerating] = useState(false);
   const resumeRef = useRef<HTMLDivElement>(null);
+
+  // Ensure component only renders on client
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Get the selected template component
   const SelectedTemplate = templates[selectedTemplate as keyof typeof templates] || Template1;
@@ -36,7 +43,8 @@ export default function ResumePreviewer() {
   };
 
   const handleDownloadPDF = async () => {
-    if (typeof window === 'undefined' || !resumeRef.current) return;
+    // Check for client-side environment and html2pdf availability
+    if (!isClient || typeof window === 'undefined' || !resumeRef.current || !html2pdf) return;
     
     setIsGenerating(true);
     const element = resumeRef.current;
@@ -66,6 +74,11 @@ export default function ResumePreviewer() {
       setIsGenerating(false);
     }
   };
+
+  // If not client-side, return null or a placeholder
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
