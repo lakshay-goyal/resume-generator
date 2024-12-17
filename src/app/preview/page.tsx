@@ -12,8 +12,11 @@ import Template1 from '../templates/Template1';
 import Template2 from '../templates/Template2';
 import Template3 from '../templates/Template3';
 
-// Dynamically import html2pdf
-const Html2Pdf = dynamic(() => import('html2pdf.js'), { ssr: false });
+// Create a wrapper component for html2pdf
+const Html2PdfWrapper = dynamic(
+  () => import('../../components/Html2PdfWrapper').then(mod => mod.Html2PdfWrapper),
+  { ssr: false }
+);
 
 const templates = {
   template1: Template1,
@@ -43,38 +46,11 @@ export default function ResumePreviewer() {
     }
   };
 
-  const handleDownloadPDF = async () => {
+  const handleDownloadPDF = () => {
     // Check for client-side environment and html2pdf availability
     if (!isClient || typeof window === 'undefined' || !resumeRef.current) return;
     
     setIsGenerating(true);
-    const element = resumeRef.current;
-    
-    const opt = {
-      margin: 0,
-      filename: `${resumeData.personalInfo.fullName}_Resume.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { 
-        scale: 2,
-        useCORS: true,
-        letterRendering: true
-      },
-      jsPDF: { 
-        unit: 'mm', 
-        format: 'a4', 
-        orientation: 'portrait' 
-      }
-    };
-
-    try {
-      const html2pdf = await Html2Pdf;
-      await html2pdf(element, opt).save();
-    } catch (error) {
-      console.error('PDF generation error:', error);
-      alert('Failed to generate PDF');
-    } finally {
-      setIsGenerating(false);
-    }
   };
 
   // If not client-side, return null or a placeholder
@@ -102,17 +78,25 @@ export default function ResumePreviewer() {
             >
               <Printer className="w-4 h-4" /> Print
             </Button>
-            <Button 
-              onClick={handleDownloadPDF}
-              disabled={isGenerating}
-              className="flex items-center gap-2"
+            <Html2PdfWrapper 
+              ref={resumeRef}
+              filename={`${resumeData.personalInfo.fullName}_Resume.pdf`}
+              isGenerating={isGenerating}
+              onGenerationStart={() => setIsGenerating(true)}
+              onGenerationEnd={() => setIsGenerating(false)}
             >
-              {isGenerating ? 'Generating...' : (
-                <>
-                  <Download className="w-4 h-4" /> Download PDF
-                </>
-              )}
-            </Button>
+              <Button 
+                onClick={handleDownloadPDF}
+                disabled={isGenerating}
+                className="flex items-center gap-2"
+              >
+                {isGenerating ? 'Generating...' : (
+                  <>
+                    <Download className="w-4 h-4" /> Download PDF
+                  </>
+                )}
+              </Button>
+            </Html2PdfWrapper>
           </div>
         </div>
 
