@@ -50,13 +50,6 @@ const templates = [
   },
 ];
 
-type Template = {
-  id: string;
-  name: string;
-  description: string;
-  imageUrl: string ; // Allow both string and imported image types
-};
-
 export default function Home() {
   const router = useRouter();
   const [selectedTemplate, setSelectedTemplate] = useAtom(selectedTemplateAtom);
