@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useAtom } from 'jotai';
 import { resumeDataAtom } from '../store/resumeStore';
 import { useState, useEffect } from 'react';
+import { School, Calendar, GraduationCap, MapPin, ChevronLeft, ChevronRight, Plus, X } from 'lucide-react';
 
 export default function Education() {
   const router = useRouter();
@@ -62,151 +63,142 @@ export default function Education() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 py-12">
-      <div className="container mx-auto px-4 max-w-3xl">
-        <div className="bg-gray-800 rounded-lg shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-white mb-6 text-center">
-            Education Details
-          </h1>
+    <div className="min-h-screen py-12 px-4">
+      <div className="container mx-auto max-w-3xl">
+        <div className="form-card">
+          {/* Progress Steps */}
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <div className="progress-step progress-step-inactive" />
+            <div className="progress-step progress-step-active animate-pulse-subtle" />
+            <div className="progress-step progress-step-inactive" />
+            <div className="progress-step progress-step-inactive" />
+            <div className="progress-step progress-step-inactive" />
+            <div className="progress-step progress-step-inactive" />
+          </div>
+
+          <h1 className="form-header">Education Details</h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {resumeData.education.map((edu, index) => (
               <div
                 key={index}
-                className="bg-gray-700 p-6 rounded-lg space-y-4 relative"
+                className="glass-effect p-6 rounded-lg space-y-4 relative animate-fade-in"
               >
                 <button
                   type="button"
                   onClick={() => removeEducation(index)}
-                  className="absolute top-4 right-4 text-red-400 hover:text-red-300"
+                  className="absolute top-4 right-4 text-red-400 hover:text-red-300 
+                    transition-colors p-1 hover:bg-red-400/10 rounded-full"
                 >
-                  Remove
+                  <X className="w-5 h-5" />
                 </button>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">
-                      School/University
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="University Name"
-                      className="w-full px-4 py-2 rounded-md border border-gray-600 
-                        bg-gray-700 text-white placeholder-gray-400
-                        focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                        transition duration-150"
-                      value={edu.school}
-                      onChange={(e) =>
-                        updateEducation(index, 'school', e.target.value)
-                      }
-                    />
+                  <div className="input-group">
+                    <label className="form-label">School/University</label>
+                    <div className="relative">
+                      <School className="input-icon w-5 h-5" />
+                      <input
+                        type="text"
+                        required
+                        placeholder="University Name"
+                        className="form-input input-with-icon"
+                        value={edu.school}
+                        onChange={(e) =>
+                          updateEducation(index, 'school', e.target.value)
+                        }
+                      />
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">
-                      Degree
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Bachelor's, Master's, etc."
-                      className="w-full px-4 py-2 rounded-md border border-gray-600 
-                        bg-gray-700 text-white placeholder-gray-400
-                        focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                        transition duration-150"
-                      value={edu.degree}
-                      onChange={(e) =>
-                        updateEducation(index, 'degree', e.target.value)
-                      }
-                    />
+                  <div className="input-group">
+                    <label className="form-label">Degree</label>
+                    <div className="relative">
+                      <GraduationCap className="input-icon w-5 h-5" />
+                      <input
+                        type="text"
+                        required
+                        placeholder="Bachelor's, Master's, etc."
+                        className="form-input input-with-icon"
+                        value={edu.degree}
+                        onChange={(e) =>
+                          updateEducation(index, 'degree', e.target.value)
+                        }
+                      />
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">
-                      Field of Study
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Computer Science, Business, etc."
-                      className="w-full px-4 py-2 rounded-md border border-gray-600 
-                        bg-gray-700 text-white placeholder-gray-400
-                        focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                        transition duration-150"
-                      value={edu.field}
-                      onChange={(e) =>
-                        updateEducation(index, 'field', e.target.value)
-                      }
-                    />
+                  <div className="input-group">
+                    <label className="form-label">Field of Study</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        required
+                        placeholder="Computer Science, Business, etc."
+                        className="form-input"
+                        value={edu.field}
+                        onChange={(e) =>
+                          updateEducation(index, 'field', e.target.value)
+                        }
+                      />
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">
-                      Location
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="City, Country"
-                      className="w-full px-4 py-2 rounded-md border border-gray-600 
-                        bg-gray-700 text-white placeholder-gray-400
-                        focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                        transition duration-150"
-                      value={edu.location}
-                      onChange={(e) =>
-                        updateEducation(index, 'location', e.target.value)
-                      }
-                    />
+                  <div className="input-group">
+                    <label className="form-label">Location</label>
+                    <div className="relative">
+                      <MapPin className="input-icon w-5 h-5" />
+                      <input
+                        type="text"
+                        required
+                        placeholder="City, Country"
+                        className="form-input input-with-icon"
+                        value={edu.location}
+                        onChange={(e) =>
+                          updateEducation(index, 'location', e.target.value)
+                        }
+                      />
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">
-                      Start Date
-                    </label>
-                    <input
-                      type="month"
-                      required
-                      className="w-full px-4 py-2 rounded-md border border-gray-600 
-                        bg-gray-700 text-white placeholder-gray-400
-                        focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                        transition duration-150"
-                      value={edu.startDate}
-                      onChange={(e) =>
-                        updateEducation(index, 'startDate', e.target.value)
-                      }
-                    />
+                  <div className="input-group">
+                    <label className="form-label">Start Date</label>
+                    <div className="relative">
+                      <Calendar className="input-icon w-5 h-5" />
+                      <input
+                        type="month"
+                        required
+                        className="form-input input-with-icon"
+                        value={edu.startDate}
+                        onChange={(e) =>
+                          updateEducation(index, 'startDate', e.target.value)
+                        }
+                      />
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">
-                      End Date (or Expected)
-                    </label>
-                    <input
-                      type="month"
-                      required
-                      className="w-full px-4 py-2 rounded-md border border-gray-600 
-                        bg-gray-700 text-white placeholder-gray-400
-                        focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                        transition duration-150"
-                      value={edu.endDate}
-                      onChange={(e) =>
-                        updateEducation(index, 'endDate', e.target.value)
-                      }
-                    />
+                  <div className="input-group">
+                    <label className="form-label">End Date (or Expected)</label>
+                    <div className="relative">
+                      <Calendar className="input-icon w-5 h-5" />
+                      <input
+                        type="month"
+                        required
+                        className="form-input input-with-icon"
+                        value={edu.endDate}
+                        onChange={(e) =>
+                          updateEducation(index, 'endDate', e.target.value)
+                        }
+                      />
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-1">
-                      GPA (Optional)
-                    </label>
+                  <div className="input-group">
+                    <label className="form-label">GPA (Optional)</label>
                     <input
                       type="text"
                       placeholder="3.8"
-                      className="w-full px-4 py-2 rounded-md border border-gray-600 
-                        bg-gray-700 text-white placeholder-gray-400
-                        focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                        transition duration-150"
+                      className="form-input"
                       value={edu.gpa}
                       onChange={(e) =>
                         updateEducation(index, 'gpa', e.target.value)
@@ -217,25 +209,27 @@ export default function Education() {
               </div>
             ))}
 
-            {!showAddForm && (
+            {!showAddForm ? (
               <button
                 type="button"
                 onClick={() => setShowAddForm(true)}
-                className="w-full py-2.5 rounded-md border border-gray-600 
-                  text-gray-300 hover:bg-gray-700 transition duration-150"
+                className="btn-secondary w-full group"
               >
-                + Add Another Education
+                <span className="inline-flex items-center justify-center">
+                  <Plus className="w-5 h-5 mr-2 transition-transform group-hover:scale-125" />
+                  Add Another Education
+                </span>
               </button>
-            )}
-
-            {showAddForm && (
+            ) : (
               <button
                 type="button"
                 onClick={addEducation}
-                className="w-full py-2.5 rounded-md bg-blue-600 text-white 
-                  hover:bg-blue-700 transition duration-150"
+                className="btn-primary w-full group"
               >
-                Save Education Entry
+                <span className="inline-flex items-center justify-center">
+                  Save Education Entry
+                  <Plus className="w-5 h-5 ml-2 transition-transform group-hover:rotate-90" />
+                </span>
               </button>
             )}
 
@@ -243,21 +237,21 @@ export default function Education() {
               <button
                 type="button"
                 onClick={() => router.push('/personal-info')}
-                className="px-6 py-2.5 rounded-md border border-gray-600 
-                  text-gray-300 hover:bg-gray-700 transition duration-150 
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 
-                  focus:ring-offset-gray-800 focus:ring-gray-500"
+                className="btn-secondary group"
               >
-                Back
+                <span className="inline-flex items-center">
+                  <ChevronLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
+                  Back
+                </span>
               </button>
               <button
                 type="submit"
-                className="px-6 py-2.5 rounded-md bg-blue-600 text-white 
-                  hover:bg-blue-700 transition duration-150 
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 
-                  focus:ring-offset-gray-800 focus:ring-blue-500"
+                className="btn-primary group"
               >
-                Next: Experience
+                <span className="inline-flex items-center">
+                  Next: Experience
+                  <ChevronRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                </span>
               </button>
             </div>
           </form>

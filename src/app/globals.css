@@ -64,3 +64,156 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .animate-drift {
+    animation: drift 15s linear infinite;
+  }
+  
+  .animate-drift-reverse {
+    animation: drift 15s linear infinite reverse;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  .scale-102 {
+    transform: scale(1.02);
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 0.5s ease-out;
+  }
+  
+  .animate-pulse-subtle {
+    animation: pulseSubtle 2s infinite;
+  }
+  
+  .glass-effect {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+  }
+  
+  .input-icon {
+    @apply absolute left-3 top-1/2 -translate-y-1/2 text-gray-400;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Form styles */
+.form-input {
+  @apply w-full px-4 py-2 rounded-md border border-gray-600 
+    bg-gray-700/60 text-white placeholder-gray-400
+    focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
+    transition duration-150 backdrop-blur-sm;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-200 mb-1;
+}
+
+.form-card {
+  @apply bg-gray-800/60 backdrop-blur-sm rounded-lg shadow-xl p-8 
+    border border-gray-700/50 animate-fade-in;
+}
+
+.btn-primary {
+  @apply px-6 py-2.5 rounded-md bg-gradient-to-r from-blue-500 to-purple-600 
+    text-white hover:from-blue-400 hover:to-purple-500 
+    transition-all duration-300 transform hover:-translate-y-0.5
+    focus:outline-none focus:ring-2 focus:ring-offset-2 
+    focus:ring-offset-gray-800 focus:ring-blue-500
+    shadow-lg hover:shadow-xl hover:shadow-blue-500/20;
+}
+
+.btn-secondary {
+  @apply px-6 py-2.5 rounded-md border border-gray-600 
+    text-gray-300 hover:bg-gray-700/60 backdrop-blur-sm
+    transition-all duration-300 transform hover:-translate-y-0.5
+    focus:outline-none focus:ring-2 focus:ring-offset-2 
+    focus:ring-offset-gray-800 focus:ring-gray-500;
+}
+
+/* Add these new component classes */
+.progress-step {
+  @apply w-10 h-2.5 rounded-full transition-all duration-300;
+}
+
+.progress-step-active {
+  @apply bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg shadow-blue-500/30;
+}
+
+.progress-step-inactive {
+  @apply bg-gray-700 hover:bg-gray-600 cursor-pointer;
+}
+
+.form-section {
+  @apply animate-slide-up;
+}
+
+.form-header {
+  @apply text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r 
+    from-blue-400 to-purple-600 mb-8 text-center animate-fade-in;
+}
+
+.input-group {
+  @apply relative animate-fade-in;
+}
+
+.input-with-icon {
+  @apply pl-10;
+}

@@ -1,3 +1,13 @@
+export interface Project {
+  title: string;
+  description: string;
+  technologies: string[];
+  link?: string;
+  startDate: string;
+  endDate: string;
+  current: boolean;
+}
+
 export interface ResumeData {
   personalInfo: {
     fullName: string;
@@ -28,4 +38,5 @@ export interface ResumeData {
   skills: {
     [category: string]: string[];
   };
+  projects: Project[];
 }

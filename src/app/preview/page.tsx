@@ -5,9 +5,14 @@ import dynamic from 'next/dynamic';
 import { useAtom } from 'jotai';
 import { resumeDataAtom, selectedTemplateAtom } from '../store/resumeStore';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Download, ArrowLeft, Printer } from 'lucide-react';
+import { 
+  Download, 
+  ArrowLeft, 
+  Printer, 
+  FileCheck, 
+  Loader2, 
+  CheckCircle2 
+} from 'lucide-react';
 import Template1 from '../templates/Template1';
 import Template2 from '../templates/Template2';
 import Template3 from '../templates/Template3';
@@ -36,14 +41,13 @@ export default function ResumePreviewer() {
   const [selectedTemplate] = useAtom(selectedTemplateAtom);
   const router = useRouter();
   const [isGenerating, setIsGenerating] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const resumeRef = useRef<HTMLDivElement>(null);
 
-  // Ensure component only renders on client
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Get the selected template component
   const SelectedTemplate = templates[selectedTemplate as keyof typeof templates] || Template1;
 
   const handlePrint = () => {
@@ -53,65 +57,91 @@ export default function ResumePreviewer() {
   };
 
   const handleDownloadPDF = () => {
-    // Check for client-side environment and html2pdf availability
     if (!isClient || typeof window === 'undefined' || !resumeRef.current) return;
-    
     setIsGenerating(true);
   };
 
-  // If not client-side, return null or a placeholder
+  const handleGenerationSuccess = () => {
+    setIsGenerating(false);
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  };
+
   if (!isClient) {
     return null;
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen py-12 px-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <div className="container mx-auto max-w-4xl">
+        {/* Progress Steps */}
+        <div className="flex items-center justify-center gap-3 mb-8">
+          <div className="progress-step progress-step-inactive" />
+          <div className="progress-step progress-step-inactive" />
+          <div className="progress-step progress-step-inactive" />
+          <div className="progress-step progress-step-inactive" />
+          <div className="progress-step progress-step-inactive" />
+          <div className="progress-step progress-step-active animate-pulse-subtle" />
+        </div>
+
+        <h1 className="form-header mb-8">Preview Your Resume</h1>
+
         {/* Action Buttons */}
-        <div className="flex justify-between mb-6">
-          <Button 
-            variant="outline" 
+        <div className="flex justify-between mb-6 animate-fade-in">
+          <button 
             onClick={() => router.push('/skills')}
-            className="flex items-center gap-2"
+            className="btn-secondary group"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Edit
-          </Button>
+            <span className="inline-flex items-center">
+              <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
+              Back to Edit
+            </span>
+          </button>
           <div className="flex gap-4">
-            <Button 
-              variant="secondary" 
-              onClick={handlePrint}
-              className="flex items-center gap-2"
-            >
-              <Printer className="w-4 h-4" /> Print
-            </Button>
             <Html2PdfWrapper 
               ref={resumeRef}
               filename={`${resumeData.personalInfo.fullName}_Resume.pdf`}
               isGenerating={isGenerating}
               onGenerationStart={() => setIsGenerating(true)}
-              onGenerationEnd={() => setIsGenerating(false)}
+              onGenerationEnd={handleGenerationSuccess}
             >
-              <Button 
+              <button 
                 onClick={handleDownloadPDF}
                 disabled={isGenerating}
-                className="flex items-center gap-2"
+                className="btn-primary group relative"
               >
-                {isGenerating ? 'Generating...' : (
-                  <>
-                    <Download className="w-4 h-4" /> Download PDF
-                  </>
-                )}
-              </Button>
+                <span className="inline-flex items-center">
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Generating...
+                    </>
+                  ) : showSuccess ? (
+                    <>
+                      <CheckCircle2 className="w-4 h-4 mr-2 text-green-400" />
+                      Downloaded!
+                    </>
+                  ) : (
+                    <>
+                      <FileCheck className="w-4 h-4 mr-2 transition-transform group-hover:scale-110" />
+                      Download PDF
+                    </>
+                  )}
+                </span>
+              </button>
             </Html2PdfWrapper>
           </div>
         </div>
 
         {/* Web Preview */}
-        <Card className="p-8 bg-white shadow-lg print:shadow-none">
-          <div ref={resumeRef}>
+        <div className="form-card overflow-hidden animate-fade-in">
+          <div 
+            ref={resumeRef}
+            className="bg-white rounded-lg shadow-xl transition-transform duration-300 hover:scale-[1.002]"
+          >
             <SelectedTemplate data={resumeData} />
           </div>
-        </Card>
+        </div>
       </div>
 
       {/* Print-specific styles */}
@@ -126,8 +156,12 @@ export default function ResumePreviewer() {
             size: A4;
             margin: 0;
           }
-          .print\:hidden {
+          .print\\:hidden {
             display: none !important;
+          }
+          .form-card {
+            background: none !important;
+            box-shadow: none !important;
           }
         }
       `}</style>

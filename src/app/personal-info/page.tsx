@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useAtom } from 'jotai';
 import { resumeDataAtom } from '../store/resumeStore';
 import { useEffect } from 'react';
+import { User, Mail, Phone, MapPin, Linkedin, Globe } from 'lucide-react';
 
 export default function PersonalInfo() {
   const router = useRouter();
@@ -20,183 +21,195 @@ export default function PersonalInfo() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 py-12">
-      <div className="container mx-auto px-4 max-w-3xl">
-        <div className="bg-gray-800 rounded-lg shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-white mb-6 text-center">
+    <div className="min-h-screen py-12 px-4">
+      <div className="container mx-auto max-w-3xl">
+        <div className="form-card">
+          {/* Progress Steps */}
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <div className="progress-step progress-step-active animate-pulse-subtle" />
+            <div className="progress-step progress-step-inactive" />
+            <div className="progress-step progress-step-inactive" />
+            <div className="progress-step progress-step-inactive" />
+            <div className="progress-step progress-step-inactive" />
+            <div className="progress-step progress-step-inactive" />
+          </div>
+
+          <h1 className="form-header">
             Personal Information
           </h1>
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-200 mb-1">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="John Doe"
-                  className="w-full px-4 py-2 rounded-md border border-gray-600 
-                    bg-gray-700 text-white placeholder-gray-400
-                    focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                    transition duration-150"
-                  value={resumeData.personalInfo.fullName}
-                  onChange={(e) =>
-                    setResumeData({
-                      ...resumeData,
-                      personalInfo: {
-                        ...resumeData.personalInfo,
-                        fullName: e.target.value,
-                      },
-                    })
-                  }
-                />
+              <div className="input-group">
+                <label className="form-label">Full Name</label>
+                <div className="relative">
+                  <User className="input-icon w-5 h-5" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="John Doe"
+                    className="form-input input-with-icon"
+                    value={resumeData.personalInfo.fullName}
+                    onChange={(e) =>
+                      setResumeData({
+                        ...resumeData,
+                        personalInfo: {
+                          ...resumeData.personalInfo,
+                          fullName: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-200 mb-1">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  required
-                  placeholder="john@example.com"
-                  className="w-full px-4 py-2 rounded-md border border-gray-600 
-                    bg-gray-700 text-white placeholder-gray-400
-                    focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                    transition duration-150"
-                  value={resumeData.personalInfo.email}
-                  onChange={(e) =>
-                    setResumeData({
-                      ...resumeData,
-                      personalInfo: {
-                        ...resumeData.personalInfo,
-                        email: e.target.value,
-                      },
-                    })
-                  }
-                />
+              <div className="input-group">
+                <label className="form-label">Email</label>
+                <div className="relative">
+                  <Mail className="input-icon w-5 h-5" />
+                  <input
+                    type="email"
+                    required
+                    placeholder="john@example.com"
+                    className="form-input input-with-icon"
+                    value={resumeData.personalInfo.email}
+                    onChange={(e) =>
+                      setResumeData({
+                        ...resumeData,
+                        personalInfo: {
+                          ...resumeData.personalInfo,
+                          email: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-200 mb-1">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  required
-                  placeholder="+1 (555) 000-0000"
-                  className="w-full px-4 py-2 rounded-md border border-gray-600 
-                    bg-gray-700 text-white placeholder-gray-400
-                    focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                    transition duration-150"
-                  value={resumeData.personalInfo.phone}
-                  onChange={(e) =>
-                    setResumeData({
-                      ...resumeData,
-                      personalInfo: {
-                        ...resumeData.personalInfo,
-                        phone: e.target.value,
-                      },
-                    })
-                  }
-                />
+              <div className="input-group">
+                <label className="form-label">Phone</label>
+                <div className="relative">
+                  <Phone className="input-icon w-5 h-5" />
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+1 (555) 000-0000"
+                    className="form-input input-with-icon"
+                    value={resumeData.personalInfo.phone}
+                    onChange={(e) =>
+                      setResumeData({
+                        ...resumeData,
+                        personalInfo: {
+                          ...resumeData.personalInfo,
+                          phone: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-200 mb-1">
-                  Location
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="City, Country"
-                  className="w-full px-4 py-2 rounded-md border border-gray-600 
-                    bg-gray-700 text-white placeholder-gray-400
-                    focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                    transition duration-150"
-                  value={resumeData.personalInfo.location}
-                  onChange={(e) =>
-                    setResumeData({
-                      ...resumeData,
-                      personalInfo: {
-                        ...resumeData.personalInfo,
-                        location: e.target.value,
-                      },
-                    })
-                  }
-                />
+              <div className="input-group">
+                <label className="form-label">Location</label>
+                <div className="relative">
+                  <MapPin className="input-icon w-5 h-5" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="City, Country"
+                    className="form-input input-with-icon"
+                    value={resumeData.personalInfo.location}
+                    onChange={(e) =>
+                      setResumeData({
+                        ...resumeData,
+                        personalInfo: {
+                          ...resumeData.personalInfo,
+                          location: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-200 mb-1">
-                  LinkedIn URL
-                </label>
-                <input
-                  type="url"
-                  placeholder="https://linkedin.com/in/username"
-                  className="w-full px-4 py-2 rounded-md border border-gray-600 
-                    bg-gray-700 text-white placeholder-gray-400
-                    focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                    transition duration-150"
-                  value={resumeData.personalInfo.linkedin}
-                  onChange={(e) =>
-                    setResumeData({
-                      ...resumeData,
-                      personalInfo: {
-                        ...resumeData.personalInfo,
-                        linkedin: e.target.value,
-                      },
-                    })
-                  }
-                />
+              <div className="input-group">
+                <label className="form-label">LinkedIn URL</label>
+                <div className="relative">
+                  <Linkedin className="input-icon w-5 h-5" />
+                  <input
+                    type="url"
+                    placeholder="https://linkedin.com/in/username"
+                    className="form-input input-with-icon"
+                    value={resumeData.personalInfo.linkedin}
+                    onChange={(e) =>
+                      setResumeData({
+                        ...resumeData,
+                        personalInfo: {
+                          ...resumeData.personalInfo,
+                          linkedin: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-200 mb-1">
-                  Portfolio Website
-                </label>
-                <input
-                  type="url"
-                  placeholder="https://yourwebsite.com"
-                  className="w-full px-4 py-2 rounded-md border border-gray-600 
-                    bg-gray-700 text-white placeholder-gray-400
-                    focus:border-blue-500 focus:ring-1 focus:ring-blue-500 
-                    transition duration-150"
-                  value={resumeData.personalInfo.website}
-                  onChange={(e) =>
-                    setResumeData({
-                      ...resumeData,
-                      personalInfo: {
-                        ...resumeData.personalInfo,
-                        website: e.target.value,
-                      },
-                    })
-                  }
-                />
+              <div className="input-group">
+                <label className="form-label">Portfolio Website</label>
+                <div className="relative">
+                  <Globe className="input-icon w-5 h-5" />
+                  <input
+                    type="url"
+                    placeholder="https://yourwebsite.com"
+                    className="form-input input-with-icon"
+                    value={resumeData.personalInfo.website}
+                    onChange={(e) =>
+                      setResumeData({
+                        ...resumeData,
+                        personalInfo: {
+                          ...resumeData.personalInfo,
+                          website: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
               </div>
             </div>
 
             <div className="flex justify-between pt-6">
-              <button
-                type="button"
-                onClick={() => router.push('/')}
-                className="px-6 py-2.5 rounded-md border border-gray-600 
-                  text-gray-300 hover:bg-gray-700 transition duration-150 
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 
-                  focus:ring-offset-gray-800 focus:ring-gray-500"
+              <button 
+                type="button" 
+                onClick={() => router.push('/')} 
+                className="btn-secondary group"
               >
-                Back
+                <span className="inline-flex items-center">
+                  <svg 
+                    className="w-4 h-4 mr-2 transform transition-transform group-hover:-translate-x-1" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Back
+                </span>
               </button>
-              <button
-                type="submit"
-                className="px-6 py-2.5 rounded-md bg-blue-600 text-white 
-                  hover:bg-blue-700 transition duration-150 
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 
-                  focus:ring-offset-gray-800 focus:ring-blue-500"
+              <button 
+                type="submit" 
+                className="btn-primary group"
               >
-                Next: Education
+                <span className="inline-flex items-center">
+                  Next: Education
+                  <svg 
+                    className="w-4 h-4 ml-2 transform transition-transform group-hover:translate-x-1" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
               </button>
             </div>
           </form>

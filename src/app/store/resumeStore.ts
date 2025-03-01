@@ -80,6 +80,17 @@ const initialResumeData: ResumeData = {
       'Agile',
     ],
   },
+  projects: [
+    {
+      title: 'Personal Portfolio Website',
+      description: 'Developed a responsive portfolio website using modern web technologies',
+      technologies: ['React', 'Next.js', 'Tailwind CSS'],
+      link: 'https://github.com/example/portfolio',
+      startDate: '2023-01',
+      endDate: '2023-03',
+      current: false,
+    }
+  ],
 };
 
 export const resumeDataAtom = atom<ResumeData>(initialResumeData);
